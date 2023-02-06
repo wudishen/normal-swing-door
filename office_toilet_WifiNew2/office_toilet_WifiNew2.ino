@@ -90,7 +90,8 @@ void sendWIFI()
      // Serial.println(url);
 
       //String link2="http://ecoplusiot.com.sg/insert.php?token=6FFA1F&temp="+String(temperature)+"&loc=1&dev=2&open=1&lock=0";
-      String link2="http://ecoplusiot.com.sg/insert.php?token=6FFA1F&temp="+String(temperature)+"&loc="+String(locID)+"&dev="+String(doorID)+"&open="+String(open_status)+"&lock="+String(lock_status)+"&alert="+String(alerts)+"&maintain="+String(maintenance);
+      //String link2="http://ecoplusiot.com.sg/insert.php?token=6FFA1F&temp="+String(temperature)+"&loc="+String(locID)+"&dev="+String(doorID)+"&open="+String(open_status)+"&lock="+String(lock_status)+"&alert="+String(alerts)+"&maintain="+String(maintenance);
+       String link2="https://www.ecoplus-mfg.com/test/insert.php?token=6FFA1F&temp="+String(open_status);
       http.begin(link2);
       int httpCode = http.GET();     
         if (httpCode > 0) { //Check the returning code
