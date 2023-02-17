@@ -9,7 +9,7 @@ const int sleepTimeS = 60;
 const char* ssid     = "cnc";
 const char* password = "91091230";
 
-const char* host = "ecoplus-mfg.com";
+const char* host = "www.ecoplus-mfg.com/test";
 
 //https://www.ecoplus-mfg.com/test/main.php
 
@@ -63,18 +63,20 @@ void setup() {
   Serial.print("RRSI: ");
   Serial.println(WiFi.RSSI());
   count=0;
-
+//  sendWIFI();
 }
 
 
 
 void sendWIFI()
 {
+    Serial.println("Sending wifi");
    if(WiFi.status() != WL_CONNECTED) {
        reconnectWIFI();
    }
       HTTPClient http;
-      String url = "/insert.php?token=6FFA1F&temp=";
+      //String url = "/insert.php?token=6FFA1F&temp=";
+      String url = "/insert.php";
       url += temperature;
       url += "&loc=";// loc ID
       url += String(locID);
@@ -91,7 +93,7 @@ void sendWIFI()
 
       //String link2="http://ecoplusiot.com.sg/insert.php?token=6FFA1F&temp="+String(temperature)+"&loc=1&dev=2&open=1&lock=0";
       //String link2="http://ecoplusiot.com.sg/insert.php?token=6FFA1F&temp="+String(temperature)+"&loc="+String(locID)+"&dev="+String(doorID)+"&open="+String(open_status)+"&lock="+String(lock_status)+"&alert="+String(alerts)+"&maintain="+String(maintenance);
-       String link2="https://www.ecoplus-mfg.com/test/graph.php";
+       String link2="http://www.ecoplus-mfg.com/test/insert.php";
       http.begin(link2);
       int httpCode = http.GET();     
         if (httpCode > 0) { //Check the returning code
@@ -128,7 +130,7 @@ void loop() {
 //  init2();
   blinkLED(3);
 
-  if (Serial.available()>7)
+ /* if (Serial.available()>7)
   {
     inByte[0]=Serial.read();
     inByte[1]=Serial.read();//locID
@@ -141,7 +143,7 @@ void loop() {
     inByte[8]=Serial.read();
 
     if(inByte[0]=='a')
-    {
+    {*/
       /*
       Serial.print("Rec: ");
       Serial.print(inByte[1],HEX); Serial.print(", ");
@@ -150,27 +152,27 @@ void loop() {
       Serial.print(inByte[4],HEX);Serial.print(", ");
       Serial.println(inByte[5],HEX);
       */
-      locID=inByte[1];
+    /*  locID=inByte[1];
       doorID=inByte[2];
       open_status=inByte[3];
       lock_status=inByte[4];
       temperature=inByte[5];
       maintenance=inByte[6];
-      alerts=inByte[7];
+      alerts=inByte[7];*/
       sendWIFI();
-    }
-
+  /*  }
+  Serial.println("Sending wifi");
      while (Serial.available()>0)
       inByte[9]=Serial.read();
 
     inByte[0]=0;
     inByte[1]=0;
-  }
+  }*/
 
   checkWIFI();
    
   
-  delay(200);
+  delay(10000);
   
 }
 
