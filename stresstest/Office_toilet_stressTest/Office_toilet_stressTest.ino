@@ -33,9 +33,9 @@ int gap;
 byte stuck_status;
 
 //For WIFI Transmission
-byte doorPos[200];
+byte DoorPos[200];
 
-void sendWIFI()
+/*void sendWIFI()
 {
  
   WIFISerial.write('a');
@@ -50,7 +50,7 @@ void sendWIFI()
   WIFISerial.write(alert_status);
   Serial.println("WIFI SENT");
 }
-
+*/
 
 void CloseDoor(byte inData)
 {
