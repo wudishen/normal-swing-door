@@ -81,7 +81,9 @@ void CloseDoor(byte inData)
    if(millis() - start_time> 100 && index < 200)
     {
       float percentage = ((  motorPosition - MOTOR_OPEN_POS) * 255.0) / (MOTOR_CLOSE_POS - MOTOR_OPEN_POS);
+      
       DoorPos[index] = percentage; 
+      Serial.println(DoorPos[index]);
       index++;
       start_time = millis();
     }
@@ -125,7 +127,7 @@ void CloseDoor(byte inData)
             Serial.println(".....Printing Pos Array... ");
             for(int i = 0 ; i < sizeof(DoorPos)  ; i++)
             {
-               Serial.println(DoorPos[i]);
+             //  Serial.println(DoorPos[i]);
             }
             
             break;    
