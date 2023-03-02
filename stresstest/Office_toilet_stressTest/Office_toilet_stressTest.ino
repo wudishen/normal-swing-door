@@ -123,7 +123,7 @@ void CloseDoor(byte inData)
             end_time = millis();
 
             Serial.println(".....Printing Pos Array... ");
-            for(int i = 0 ; i < DoorPos.length() ; i++)
+            for(int i = 0 ; i < sizeof(DoorPos)  ; i++)
             {
                Serial.println(DoorPos[i]);
             }
