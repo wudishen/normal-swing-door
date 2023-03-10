@@ -6,15 +6,20 @@ const int stepsPerRevolution = 200;
 void setup()
 {
   // Declare pins as Outputs
+  Serial.begin(9600);
+   Serial.println("Door Closing...");
   pinMode(stepPin, OUTPUT);
   pinMode(dirPin, OUTPUT);
-    Serial.println("---------show high---------");
 }
 void loop()
 {
+  int value;
   // Set motor direction clockwise
-  Serial.println("---------show high---------");
+    Serial.println("high");
   digitalWrite(dirPin, HIGH);
+
+   value = digitalRead( dirPin );
+    Serial.println( value );
 
   // Spin motor slowly
   for(int x = 0; x < stepsPerRevolution; x++)
@@ -27,16 +32,19 @@ void loop()
   delay(1000); // Wait a second
   
   // Set motor direction counterclockwise
-  Serial.println("---------show low---------");
+    Serial.println("low");
   digitalWrite(dirPin, LOW);
+
+   value = digitalRead( dirPin );
+    Serial.println( value );
 
   // Spin motor quickly
   for(int x = 0; x < stepsPerRevolution; x++)
   {
     digitalWrite(stepPin, HIGH);
-    delayMicroseconds(1000);
+    delayMicroseconds(500);
     digitalWrite(stepPin, LOW);
-    delayMicroseconds(1000);
+    delayMicroseconds(500);
   }
   delay(1000); // Wait a second
 }
