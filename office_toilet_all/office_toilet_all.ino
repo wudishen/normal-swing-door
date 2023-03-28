@@ -1,4 +1,4 @@
-
+#include <dummy.h>
 
 #include "Wire.h"
 #include <Adafruit_NeoPixel.h>
@@ -63,9 +63,9 @@ void send_command(int8_t command[], int len);
 #define COLOR_GREEN 3
   //doorClose ==370
   //Door Open
-#define MOTOR_OPEN_POS 100
-#define MOTOR_CLOSE_POS 200
-#define MOTOR_SEMIOPEN_POS 130
+#define MOTOR_OPEN_POS 400
+#define MOTOR_CLOSE_POS 750
+#define MOTOR_SEMIOPEN_POS 650
 
 #define MOTOR_JAM_CURRENT1 48
 #define MOTOR_JAM_CURRENT_OPEN 50

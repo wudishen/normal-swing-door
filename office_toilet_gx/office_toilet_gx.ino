@@ -63,8 +63,8 @@ void send_command(int8_t command[], int len);
 #define COLOR_GREEN 3
   //doorClose ==370
   //Door Open
-#define MOTOR_OPEN_POS 100
-#define MOTOR_CLOSE_POS 200
+#define MOTOR_OPEN_POS 600
+#define MOTOR_CLOSE_POS 250
 #define MOTOR_SEMIOPEN_POS 130
 
 #define MOTOR_JAM_CURRENT1 48
@@ -245,8 +245,12 @@ void OpenDoor(byte mode) //0 - normal, 1- obstacle detected
 
     motorADCCurrent=analogRead(MOTOR_CURRENT_PIN);
     Serial.print("Current: ");  Serial.println(motorADCCurrent);
-   
-    if(motorPosition>MOTOR_OPEN_POS)
+   Serial.print("motor pos: ");
+   Serial.print(motorPosition);
+
+    Serial.print("  MOTOR_OPEN_POS: ");
+   Serial.print(MOTOR_OPEN_POS);
+    if(motorPosition<MOTOR_OPEN_POS)
     {
       if(motorPosition<MOTOR_SEMIOPEN_POS && timer == false)
       { 
@@ -282,7 +286,7 @@ void OpenDoor(byte mode) //0 - normal, 1- obstacle detected
             delay(400);
             motorSpeed=0;
             Serial.println("Opening Reached... ");
-            //analogWrite(MOTOR_PWM,motorSpeed);
+            analogWrite(MOTOR_PWM,motorSpeed);
             break;     
     }
 
@@ -357,7 +361,7 @@ void CloseDoor(byte mode)
     motorADCCurrent=analogRead(MOTOR_CURRENT_PIN);
     Serial.print("Current: ");  Serial.println(motorADCCurrent);
 
-    if(motorPosition<MOTOR_CLOSE_POS)
+    if(motorPosition>MOTOR_CLOSE_POS)
     {
 
       diff=MOTOR_CLOSE_POS-motorPosition;
@@ -526,7 +530,7 @@ void loop() {
     startTime = millis();
    }
   }
-
+ //  OpenDoor(0);
   Serial.print("Stage: ");  Serial.println(stage);
   if(maintenanceStatus==1 &&  stage!=ROOM_MAINTENANCE)//&&  stage==ROOM_FREE)
   {
@@ -566,8 +570,10 @@ void loop() {
     process2();  
   }
 
-  delay(50);
+ // delay(5000);
 
+//  CloseDoor(0);
+ delay(500);
 }
 
 void beep(byte cnt)

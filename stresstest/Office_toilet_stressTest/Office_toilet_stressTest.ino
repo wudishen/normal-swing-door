@@ -35,7 +35,7 @@ byte stuck_status;
 //For WIFI Transmission
 byte DoorPos[200];
 
-/*void sendWIFI()
+void sendWIFI()
 {
  
   WIFISerial.write('a');
@@ -50,7 +50,7 @@ byte DoorPos[200];
   WIFISerial.write(alert_status);
   Serial.println("WIFI SENT");
 }
-*/
+
 
 void CloseDoor(byte inData)
 {
@@ -68,9 +68,10 @@ void CloseDoor(byte inData)
   while(1)
   {
     processCounter++;
-    Serial.println("---------Door Closing---------");
+    Serial.println("---------Door Closing---------this");
     //position is less than MOTOR_CLOSE_POS
-   motorPosition=analogRead(MOTOR_POS_PIN);
+  // motorPosition=analogRead(MOTOR_POS_PIN);
+   motorPosition=400;
    motorADCCurrent1=analogRead(MOTOR_CURRENT_PIN);
    if(max_current1<motorADCCurrent1)
         max_current1=motorADCCurrent1;
@@ -78,12 +79,19 @@ void CloseDoor(byte inData)
    if(max_current2<motorADCCurrent2)
         max_current2=motorADCCurrent2;
 
+
+  /*       if(millis() - start_time> 100 && index < 200){
+           float percentage = ((  motorPosition - MOTOR_OPEN_POS) * 255.0) / (MOTOR_CLOSE_POS - MOTOR_OPEN_POS);
+        DoorPos[index] = percentage; 
+      Serial.println("sucess  ");
+      Serial.println(DoorPos[index]);
+ }*/
    if(millis() - start_time> 100 && index < 200)
     {
       float percentage = ((  motorPosition - MOTOR_OPEN_POS) * 255.0) / (MOTOR_CLOSE_POS - MOTOR_OPEN_POS);
       
       DoorPos[index] = percentage; 
-      Serial.println(DoorPos[index]);
+       Serial.println(DoorPos[index]);
       index++;
       start_time = millis();
     }

@@ -1,5 +1,4 @@
 
-
 #include "Wire.h"
 #include <Adafruit_NeoPixel.h>
 #include <SoftwareSerial.h>
@@ -63,9 +62,8 @@ void send_command(int8_t command[], int len);
 #define COLOR_GREEN 3
   //doorClose ==370
   //Door Open
-#define MOTOR_OPEN_POS 100
-#define MOTOR_CLOSE_POS 200
-#define MOTOR_SEMIOPEN_POS 130
+#define MOTOR_OPEN_POS 610
+#define MOTOR_CLOSE_POS 190
 
 #define MOTOR_JAM_CURRENT1 48
 #define MOTOR_JAM_CURRENT_OPEN 50
@@ -92,7 +90,6 @@ int gap;
 
 int Entrance_IR;//IR at external door, 
 int Exit_IR;//IR at internal door
-int potentiometerPin = A6;
 byte MCP_DATA;
 int processCounter=0;
 
@@ -101,8 +98,7 @@ void open_door();
 void close_door();
 int motorMoveCounter;
 
-//For timer
-unsigned long startTime;
+
 
 //For WIFI Transmission
 byte open_status=1;
@@ -192,7 +188,7 @@ void send_command(int8_t command[], int len)
   for(int i=0;i<len;i++){ mp3Serial.write(command[i]); 
  // Serial.println(command[i], HEX); 
   }
-  delay(100);
+  delay(1000);
 }
 
 
@@ -223,8 +219,8 @@ void OpenDoor(byte mode) //0 - normal, 1- obstacle detected
   float diff;
   int motorSpeed;
    float speed_kp=0;
-   int maxSpeed=210;
-   int minSpeed=150;
+   int maxSpeed=250;
+   int minSpeed=250;
    int maxProcessCounter=50;
    motorMoveCounter=0;
    processCounter=0;
@@ -235,7 +231,7 @@ void OpenDoor(byte mode) //0 - normal, 1- obstacle detected
     playMP3(MP3_DOOR_OPENING);
   else if (mode==2)
     playMP3(MP3_DOOR_OPEN_TAKE_BELONGS);
-  boolean timer=false;
+  
   while(1)
   {
     motorMoveCounter++;
@@ -245,15 +241,9 @@ void OpenDoor(byte mode) //0 - normal, 1- obstacle detected
 
     motorADCCurrent=analogRead(MOTOR_CURRENT_PIN);
     Serial.print("Current: ");  Serial.println(motorADCCurrent);
-   
+
     if(motorPosition>MOTOR_OPEN_POS)
     {
-      if(motorPosition<MOTOR_SEMIOPEN_POS && timer == false)
-      { 
-        unsigned long elapsedTime = millis() - startTime;  // Calculate the elapsed time
-        timer = true;
-        Serial.println("time to open door :"+elapsedTime);
-      }
           diff=motorPosition-MOTOR_OPEN_POS;
           speed_kp=(diff/gap)*maxSpeed;
           Serial.print("Door Diff: ");  Serial.println(diff);
@@ -327,8 +317,8 @@ void CloseDoor(byte mode)
 {
   resetMotor();
     float speed_kp=0;
-  int maxSpeed=190;
-  int minSpeed=170;
+  int maxSpeed=200;
+  int minSpeed=150;
   
   send_command(set_Max_volume, 5);
   float diff;
@@ -495,7 +485,6 @@ void onEMLock(byte flag)
 
 void loop() {
   
-  
   Entrance_IR = analogRead(IR_EXTERNAL); // Read the state of the switch
   Exit_IR = analogRead(IR_INTERNAL); // Read the state of the switch
   motorPosition=analogRead(MOTOR_POS_PIN);
@@ -505,9 +494,9 @@ void loop() {
   Serial.print("Internal IR: ");  Serial.println(Exit_IR);
   Serial.print("Maintenance: ");  Serial.println(maintenanceStatus);
     
-  if(Entrance_IR<1000) Entrance_IR=0; else Entrance_IR=1;
-  if(Exit_IR<1000) Exit_IR=0; else Exit_IR=1;
-  if(maintenanceStatus<1000) maintenanceStatus=0; else maintenanceStatus=1;
+  if(Entrance_IR<900) Entrance_IR=0; else Entrance_IR=1;
+  if(Exit_IR<900) Exit_IR=0; else Exit_IR=1;
+  if(maintenanceStatus<900) maintenanceStatus=0; else maintenanceStatus=1;
   Serial.println("--------------------------");
   Serial.print("Door Pos: ");  Serial.println(motorPosition);
   Serial.print("EntranceIR: ");  Serial.println(Entrance_IR);
@@ -523,7 +512,6 @@ void loop() {
    {
     onSiren(1); delay(20);
     onSiren(0);
-    startTime = millis();
    }
   }
 
