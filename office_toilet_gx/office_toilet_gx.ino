@@ -591,6 +591,7 @@ void beep(byte cnt)
 
 void process2()
 {
+  Serial.println("Enter process 2");
   if(Entrance_IR==HIGH && Exit_IR==LOW &&  stage==ROOM_FREE)
   {
     Serial.println("Free Mode. Disable and Open Door");
