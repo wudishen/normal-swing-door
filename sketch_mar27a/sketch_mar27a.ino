@@ -1,14 +1,19 @@
-#define BUTTON_PIN 2
+#define IR_EXTERNAL A7
+
+int Entrance_IR;
 void setup()
 {
   Serial.begin(9600);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+ pinMode(IR_EXTERNAL, INPUT);
 }
 void loop()
 {
-  byte buttonState = digitalRead(BUTTON_PIN);
+
+
+ Entrance_IR = analogRead(IR_EXTERNAL);
+   if(Entrance_IR<900) Entrance_IR=0; else Entrance_IR=1;
   
-  if (buttonState == LOW) {
+  if (Entrance_IR == 0) {
       Serial.println("Button is pressed");
   }
   else {
