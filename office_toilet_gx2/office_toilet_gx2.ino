@@ -350,6 +350,7 @@ void CloseDoor(byte mode)
     {
 
       diff=MOTOR_CLOSE_POS-motorPosition;
+      diff = abs(diff);
       Serial.print("Door Diff: ");  Serial.println(diff);
       Serial.print("Door gap: ");  Serial.println(gap);
       speed_kp=(diff/gap)*maxSpeed;
